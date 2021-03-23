@@ -106,7 +106,7 @@ Update Android packages.
 
 ```sdkmanager --update```
 
-## Java `OpenJDK`
+## Java OpenJDK
 Download OpenJDK 8 from this [website](https://adoptopenjdk.net/). Afterwards, extract the `OpenJDK` in the following way. Please mind to adjust the archive file name to your needs.
 
 ```tar -zxvf ~/Downloads/OpenJDK11U-jdk***tar.gz -C ~/devTools/JDK/```
@@ -122,7 +122,7 @@ javac --version
 ```
 
 ## Node.js
-`React Native` requires `Node.js` version 12 or newer. I used the 'Node Version Manager` also known as `nvm` to install and configure a decent version of `Node.js` but many other exist.
+`React Native` requires `Node.js` version 12 or newer. I used the `Node Version Manager` also known as `nvm` to install and configure a decent version of `Node.js` but many other exist.
 
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
@@ -134,3 +134,21 @@ nvm install v14.16.0
 I installed the current `Long Term Support` version also known as `LTS` version. You can double check your configuration by calling `nvm list`.
 
 ## React Native
+Install the npm package along with it dependencies inside the globally shared `node_modules` folder.
+
+```npm install -g react-native-cli```
+
+Initialise the project. It contains the actual `React Native` framework code and is installed locally into your project.
+
+```
+react-native init MyFirstRNTutorial
+cd MyFirstRNTutorial
+```
+
+Start the bundler `metro`.
+
+```react-native start```
+
+Finally run your first `React Native` project on the previously connected Android phone. For that, leave `metro` as it is, open your project in an additional terminal and execute the following instruction.
+
+```react-native run-android```
