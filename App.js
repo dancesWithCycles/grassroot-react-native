@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet,View,Text} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 MapboxGL.setAccessToken(
@@ -7,14 +7,42 @@ MapboxGL.setAccessToken(
 );
 
 const App = () => {
-  const [coordinates] = useState([-76.82878274, 39.20821176]);
+    const initialCoordinates=[-76.82878274, 39.20821176];
+    const [coordinates,setCoordinates]=useState(null);
   return (
-    <View style={styles.page}>
-      <View style={styles.container}>
-        <MapboxGL.MapView style={styles.map}>
-          <MapboxGL.Camera zoomLevel={8} centerCoordinate={coordinates} />
-          <MapboxGL.PointAnnotation coordinate={coordinates} id="Test" />
-        </MapboxGL.MapView>
+	  <View
+      style={styles.page}
+	  >
+	  <View
+      style={styles.container}
+	  >
+          <MapboxGL.MapView
+      style={styles.map}
+      onPress={event=>setCoordinates(event.geometry.coordinates)}
+	  >
+          <MapboxGL.Camera
+      zoomLevel={8}
+      centerCoordinate={initialCoordinates}
+	  />
+          <MapboxGL.PointAnnotation
+      coordinate={initialCoordinates}
+      id="Test"
+	  />
+          </MapboxGL.MapView>
+	  {coordinates?(
+		  <View
+	      style={styles.coordinateViewContainer}
+		  >
+		  <View style={styles.coordinateView}
+		  >
+		  <Text
+	      style={styles.coordinateText}
+		  >
+		  lat: {coordinates[0]}, lon: {coordinates[1]}
+			</Text>
+			</View>
+			</View>
+		       ):null}
       </View>
     </View>
   );
@@ -32,6 +60,21 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
+    coordinateViewContainer:{
+	position:'absolute',
+	bottom:0,
+	padding:5,
+	width:'100%',
+	backgroundColor:'transparent',
+    },
+    coordinateView:{
+	padding:5,
+	backgroundColor:'#3f00ff',
+	flex:1,
+    },
+    coordinateText:{
+	color:'#fff',
+    },
 });
 
 export default App;
