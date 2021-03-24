@@ -8,12 +8,19 @@ MapboxGL.setAccessToken(
 
 const App = () => {
     const initialCoordinates=[-76.82878274, 39.20821176];
+    const secondCoordinates=[-76.865876, 39.266044];
     const [coordinates,setCoordinates]=useState(null);
     const onPressMap=event=>{
 	console.log('onPressMap...');
 	setCoordinates(event.geometry.coordinates);
     }
-
+    const [selectedPoint,setSelectedPoint]=useState(null);
+    /*TODO: How is the release handled?*/
+    const onSelectPoint=event=>{
+	console.log('onSelectPoint...');
+	setCoordinates(event.geometry.coordinates);
+	setSelectedPoint(event.properties.id);
+    }
   return (
 	  <View
       style={styles.page}
@@ -31,7 +38,13 @@ const App = () => {
 	  />
           <MapboxGL.PointAnnotation
       coordinate={initialCoordinates}
-      id="Test"
+      id="first Point Annotation"
+      onSelected={onSelectPoint}
+	  />
+          <MapboxGL.PointAnnotation
+      coordinate={secondCoordinates}
+      id="second Point Annotation"
+      onSelected={onSelectPoint}
 	  />
           </MapboxGL.MapView>
 	  {coordinates?(
@@ -40,6 +53,10 @@ const App = () => {
 		  >
 		  <View style={styles.coordinateView}
 		  >
+		  {selectedPoint?<Text
+		   style={styles.coordinateText}>
+		   {selectedPoint},
+		   </Text>:null}
 		  <Text
 	      style={styles.coordinateText}
 		  >
@@ -60,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'blue',
+    backgroundColor: '#3f00ff',
   },
   map: {
     flex: 1,
