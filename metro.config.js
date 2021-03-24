@@ -14,4 +14,8 @@ module.exports = {
       },
     }),
   },
+    /*by default metro bundler does not compile files with extension .ts or .tsx*/
+    resolver:{
+	sourceExts:['jsx','js','ts','tsx'],
+    },
 };
