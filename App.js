@@ -9,6 +9,11 @@ MapboxGL.setAccessToken(
 const App = () => {
     const initialCoordinates=[-76.82878274, 39.20821176];
     const [coordinates,setCoordinates]=useState(null);
+    const onPressMap=event=>{
+	console.log('onPressMap...');
+	setCoordinates(event.geometry.coordinates);
+    }
+
   return (
 	  <View
       style={styles.page}
@@ -18,7 +23,7 @@ const App = () => {
 	  >
           <MapboxGL.MapView
       style={styles.map}
-      onPress={event=>setCoordinates(event.geometry.coordinates)}
+      onPress={onPressMap}
 	  >
           <MapboxGL.Camera
       zoomLevel={8}
