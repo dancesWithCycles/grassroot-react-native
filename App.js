@@ -15,7 +15,11 @@ const App = () => {
           <MapboxGL.MapView
       style={styles.map}
       zoomLevel={11}>
-          <MapboxGL.Camera zoomLevel={8} centerCoordinate={coordinates} />
+            <MapboxGL.Camera
+	zoomLevel={8}
+	centerCoordinate={coordinates}
+	annimationDuration={0}
+	    />
           <MapboxGL.PointAnnotation coordinate={coordinates} id="Test" />
         </MapboxGL.MapView>
       </View>
