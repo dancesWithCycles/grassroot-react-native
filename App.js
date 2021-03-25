@@ -19,30 +19,23 @@ const App = () => {
 
     const startingPoint = [3.3362400, 6.5790100];
     const destinationPoint = [ 3.3750014, 6.5367877 ];
+    const startDestinationPoints = [startingPoint,destinationPoint];
 
     const renderAnnotations=()=>{
 	console.log('renderAnnotations...');
 	return (
-	    <>
-		<MapboxGL.PointAnnotation
-            key="startPointAnnotation"
-            id="startPointAnnotation"
-            coordinate={startingPoint}
-		> 
-		<View
-   	    style={styles.pointView}
-		/>
+	    startDestinationPoints.map((point,index)=>{
+		console.log('index: '+index);
+		    <MapboxGL.PointAnnotation
+		key={`${index}-startPointAnnotation`}
+		id={`${index}-startPointAnnotation`}
+		coordinate={point}
+		    >
+		    <View
+		style={styles.pointView}
+		    />
 		</MapboxGL.PointAnnotation>
-
-		<MapboxGL.PointAnnotation
-            key="destinationPointAnnotation"
-            id="destinationPointAnnotation"
-        coordinate={destinationPoint}> 
-		<View
-   	    style={styles.pointView}
-		/>
-	    </MapboxGL.PointAnnotation>
-	    </>
+	    })
 	);
     }
 
