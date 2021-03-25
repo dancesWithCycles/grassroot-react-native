@@ -7,11 +7,14 @@ MapboxGL.setAccessToken(
 );
 
 const App = () => {
-  const [coordinates] = useState([-76.82878274, 39.20821176]);
-  return (
+    const [coordinates] = useState([-76.82878274, 39.20821176]);
+    /*TODO: What is the difference between prop zoomLevel for MapView and for Camera?*/
+    return (
     <View style={styles.page}>
       <View style={styles.container}>
-        <MapboxGL.MapView style={styles.map}>
+          <MapboxGL.MapView
+      style={styles.map}
+      zoomLevel={11}>
           <MapboxGL.Camera zoomLevel={8} centerCoordinate={coordinates} />
           <MapboxGL.PointAnnotation coordinate={coordinates} id="Test" />
         </MapboxGL.MapView>
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'blue',
+    backgroundColor: '#3f00ff',
   },
   map: {
     flex: 1,
