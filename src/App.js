@@ -91,7 +91,7 @@ class App extends React.Component{
 		<View style={others.container}>
 		<MapboxGL.MapView
 	    style={others.map}
-	    zoomLevel={11}
+	    zoomLevel={0}
 		>
 		<MapboxGL.UserLocation
             visible={true}
@@ -99,8 +99,12 @@ class App extends React.Component{
             onUpdate={this.onUserLocationUpdate}
 		/>
 		<MapboxGL.Camera
-	    zoomLevel={8}
-	    centerCoordinate={this.state.coordinates}
+            defaultSettings={{
+              centerCoordinate:[-76.82878274, 39.20821176],
+              zoomLevel: 0,
+	    }}
+	    followUserLocation={true}
+	    followUserMode={'normal'}
 	    annimationDuration={0}
 		/>
 	    </MapboxGL.MapView>
