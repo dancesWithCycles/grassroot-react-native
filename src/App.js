@@ -18,7 +18,7 @@ class App extends React.Component{
 	    isFetchingPermission:IS_ANDROID,
 	    isPermissionGranted:false,
 	};
-    }
+  }
 
     async componentDidMount(){
 	console.log('componentDidMount...');
@@ -66,13 +66,17 @@ class App extends React.Component{
 		<View style={others.container}>
 		<MapboxGL.MapView
 	    style={others.map}
-	    zoomLevel={11}>
+	    zoomLevel={11}
+		>
+		<MapboxGL.UserLocation
+            visible={true}
+            onUpdate={this.onUserLocationUpdate}
+		/>
 		<MapboxGL.Camera
 	    zoomLevel={8}
 	    centerCoordinate={this.state.coordinates}
 	    annimationDuration={0}
 		/>
-		<MapboxGL.PointAnnotation coordinate={this.state.coordinates} id="Test" />
 	    </MapboxGL.MapView>
 	    </View>
 	    </View>
