@@ -17,8 +17,33 @@ class App extends React.Component{
 	    coordinates:[-76.82878274, 39.20821176],
 	    isFetchingPermission:IS_ANDROID,
 	    isPermissionGranted:false,
+	    timestamp: 0,
+	    latitude: 0.0,
+	    longitude: 0.0,
+	    altitude: 0.0,
+	    heading: 0.0,
+	    accuracy: 0.0,
+	    speed: 0.0,
 	};
+
+	    this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
   }
+
+
+    onUserLocationUpdate(location) {
+	this.setState({
+	    timestamp: location.timestamp,
+	    latitude: location.coords.latitude,
+	    longitude: location.coords.longitude,
+	    altitude: location.coords.altitude,
+	    heading: location.coords.heading,
+	    accuracy: location.coords.accuracy,
+	    speed: location.coords.speed,
+	});
+	console.log('usr loc ts: '+this.state.timestamp);
+	console.log('usr loc lat: '+this.state.latitude);
+	console.log('usr loc lon: '+this.state.longitude);
+    }
 
     async componentDidMount(){
 	console.log('componentDidMount...');
@@ -70,6 +95,7 @@ class App extends React.Component{
 		>
 		<MapboxGL.UserLocation
             visible={true}
+            showsUserHeadingIndicator={true}
             onUpdate={this.onUserLocationUpdate}
 		/>
 		<MapboxGL.Camera
