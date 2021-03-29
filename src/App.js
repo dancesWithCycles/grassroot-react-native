@@ -1,48 +1,83 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {View,SafeAreaView} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-MapboxGL.setAccessToken(
-    'pk.eyJ1IjoiZGFuY2Vzd2l0aGN5Y2xlcyIsImEiOiJja205eXR5bzkxbW96Mndxc3p6dHV1c3Q3In0.lzOkgTEjmXQmmT_3ak_J2Q',
-);
+import others from './styles/others';
+import sheet from './styles/sheet';
+import colors from './styles/colors';
+import config from './utils/config';
+import {IS_ANDROID} from './utils';
 
-const App = () => {
-    const [coordinates] = useState([-76.82878274, 39.20821176]);
-    /*TODO: What is the difference between prop zoomLevel for MapView and for Camera?*/
-    return (
-    <View style={styles.page}>
-      <View style={styles.container}>
-          <MapboxGL.MapView
-      style={styles.map}
-      zoomLevel={11}>
-            <MapboxGL.Camera
-	zoomLevel={8}
-	centerCoordinate={coordinates}
-	annimationDuration={0}
-	    />
-          <MapboxGL.PointAnnotation coordinate={coordinates} id="Test" />
-        </MapboxGL.MapView>
-      </View>
-    </View>
-  );
-};
+MapboxGL.setAccessToken(config.get('accessToken'));
 
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-  },
-  container: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: '#3f00ff',
-  },
-  map: {
-    flex: 1,
-  },
-  noPermissionsText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
+class App extends React.Component{
+    constructor(props){
+	super(props);
+	this.state={
+	    coordinates:[-76.82878274, 39.20821176],
+	    isFetchingPermission:IS_ANDROID,
+	    isPermissionGranted:false,
+	};
+    }
+
+    async componentDidMount(){
+	console.log('componentDidMount...');
+	if(IS_ANDROID){
+	    const isGranted=await MapboxGL.requestAndroidLocationPermissions();
+	    console.log('isGranted: ')
+	    console.log(isGranted?'true':'false')
+	    this.setState({
+		isPermissionGranted:isGranted,
+		isFetchingPermission:false,
+	    });
+	}
+    }
+
+    render(){
+	if(IS_ANDROID && !this.state.isPermissionGranted){
+	    console.log('Android os without permission');
+	    if(this.state.isFetchingPermission){
+		console.log('App is fetching permission');
+		/*TODO: What are we rendering during this phase?*/
+		return null;
+	    }else{
+		console.log('Something unsupported happened!');
+	    }
+
+	    return (
+		    <SafeAreaView
+		style={[
+		    sheet.matchParent,
+		    {backgroundColor:colors.primary.indigo}]}
+		forceInset={{top: 'always'}}
+		    >
+		    <View style={sheet.matchParent}>
+		    <Text style={others.noPermissionsText}>
+		You need to accept location permissions in order to use this example applications
+		</Text>
+		</View>
+		</SafeAreaView>
+	    );
+	}
+
+	/*TODO: What is the difference between prop zoomLevel for MapView and for Camera?*/
+	return (
+		<View style={others.page}>
+		<View style={others.container}>
+		<MapboxGL.MapView
+	    style={others.map}
+	    zoomLevel={11}>
+		<MapboxGL.Camera
+	    zoomLevel={8}
+	    centerCoordinate={this.state.coordinates}
+	    annimationDuration={0}
+		/>
+		<MapboxGL.PointAnnotation coordinate={this.state.coordinates} id="Test" />
+	    </MapboxGL.MapView>
+	    </View>
+	    </View>
+	);
+    }
+}
 
 export default App;
